@@ -1,0 +1,106 @@
+// Wagon Train actor sheet styles.
+//
+// Everything is scoped under `.talesoftheoldwest`, a class set by the Tales of The Old West
+// system's base actor sheet. Colour variables fall back to sensible defaults when a theme
+// does not define them.
+
+$font-primary: 'Fraunces', serif;
+
+.talesoftheoldwest {
+  .statnum_lg {
+    width: 66px;
+    text-align: center;
+    font-size: 1.25em;
+    font-family: $font-primary;
+  }
+
+  // Out-ranks the system's generic `.application input[type='number']` width.
+  input[type='number'].statnum_lg {
+    width: 66px;
+  }
+
+  .grid-wagon-train {
+    display: grid;
+    grid-template-columns: 330px 200px 200px 120px;
+    gap: 15px;
+    align-items: start;
+    font-family: $font-primary;
+
+    .wagon-train-column {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+      .column-header {
+        font-weight: bold;
+        font-size: 1.4em;
+        text-align: center;
+      }
+    }
+
+    .grid-leads {
+      display: grid;
+      grid-template-columns: 150px 180px;
+      gap: 6px 0;
+      align-items: center;
+
+      label {
+        font-weight: bold;
+        text-align: center;
+        align-self: center;
+      }
+    }
+
+    .role-list {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+  }
+
+  .role-slot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 180px;
+    min-height: 28px;
+    padding: 2px 8px;
+    background: var(--input-background-color, rgba(0, 0, 0, 0.05));
+    border: 1px solid var(--input-border-color, #7a7971);
+    border-radius: 3px;
+    box-sizing: border-box;
+
+    .role-name {
+      font-weight: bold;
+      color: var(--color-text-primary, inherit);
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      text-decoration: none;
+
+      &:hover {
+        text-shadow: 0 0 4px var(--color-shadow-highlight, #ff6400);
+        cursor: pointer;
+      }
+    }
+
+    .role-remove {
+      margin-left: auto;
+      color: var(--color-text-light-7, #7a7971);
+      cursor: pointer;
+      padding: 0 4px;
+
+      &:hover {
+        color: var(--color-level-error, #c00);
+      }
+    }
+
+    .role-empty {
+      font-style: italic;
+      color: var(--input-placeholder-color, #7a7971);
+      user-select: none;
+      pointer-events: none;
+    }
+  }
+}

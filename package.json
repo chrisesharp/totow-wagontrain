@@ -1,0 +1,30 @@
+{
+	"name": "totow-wagontrain",
+	"version": "0.1.0",
+	"type": "module",
+	"description": "Wagon Train actor for the Tales of The Old West Foundry VTT system",
+	"scripts": {
+		"build": "gulp build",
+		"watch": "gulp watch",
+		"clean": "gulp clean",
+		"link": "gulp link",
+		"unlink": "gulp link --clean"
+	},
+	"browserslist": [
+		"last 3 versions"
+	],
+	"license": "GPL-3.0",
+	"private": true,
+	"engines": {
+		"node": ">=20"
+	},
+	"devDependencies": {
+		"fs-extra": "^11.4.1",
+		"gulp": "^5.0.1",
+		"gulp-autoprefixer": "^10.0.0",
+		"gulp-sass": "^6.0.1",
+		"rollup": "^4.63.4",
+		"sass": "^1.105.1",
+		"yargs": "^17.7.2"
+	}
+}

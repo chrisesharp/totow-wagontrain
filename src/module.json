@@ -1,0 +1,40 @@
+{
+  "id": "totow-wagontrain",
+  "title": "Tales of The Old West: Wagon Train",
+  "description": "Adds a Wagon Train actor to the Tales of The Old West system: trail roles, morale, supplies, money and cattle.",
+  "version": "0.1.0",
+  "authors": [
+    {
+      "name": "Chris Sharp"
+    }
+  ],
+  "compatibility": {
+    "minimum": "13",
+    "verified": "14"
+  },
+  "relationships": {
+    "systems": [
+      {
+        "id": "talesoftheoldwest",
+        "type": "system",
+        "compatibility": {
+          "minimum": "1.0.0"
+        }
+      }
+    ]
+  },
+  "esmodules": ["scripts/main.mjs"],
+  "styles": ["styles/wagontrain.css"],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
+  "documentTypes": {
+    "Actor": {
+      "wagontrain": {}
+    }
+  }
+}

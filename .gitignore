@@ -1,0 +1,5 @@
+node_modules
+dist/
+foundryconfig.json
+.DS_Store
+module.zip

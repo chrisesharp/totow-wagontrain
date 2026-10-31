@@ -1,0 +1,183 @@
+<section class='tab wagontrain {{tab.cssClass}}' data-group='primary' data-tab='wagontrain'>
+	<div class='grid-wagon-train' style='margin-top: 30px;'>
+		<!-- Column 1: Trail Leads -->
+		<div class='wagon-train-column' data-role-group='leads'>
+			<label class='column-header resource-label'>{{toUpperCase (localize 'TOTOWWAGONTRAIN.trailLeads')}}</label>
+			<div class='grid-leads'>
+				<label class='resource-label' data-role='trailboss'>{{toUpperCase (localize 'TOTOWWAGONTRAIN.trailboss')}}</label>
+				<div class='role-slot' data-role='trailboss'>
+					{{#if wagonRoles.leads.trailboss.actor}}
+						<a class='role-name' data-action='roleView' data-actor-id='{{wagonRoles.leads.trailboss.id}}'>{{wagonRoles.leads.trailboss.actor.name}}</a>
+						<a class='role-remove' data-action='roleRemove' data-role='trailboss' data-tooltip='{{localize "TOTOWWAGONTRAIN.remove"}}'><i class='fas fa-times'></i></a>
+					{{else}}
+						<span class='role-empty'>{{localize 'TOTOWWAGONTRAIN.dropActor'}}</span>
+					{{/if}}
+				</div>
+
+				<label class='resource-label' data-role='quartermaster'>{{toUpperCase (localize 'TOTOWWAGONTRAIN.quartermaster')}}</label>
+				<div class='role-slot' data-role='quartermaster'>
+					{{#if wagonRoles.leads.quartermaster.actor}}
+						<a class='role-name' data-action='roleView' data-actor-id='{{wagonRoles.leads.quartermaster.id}}'>{{wagonRoles.leads.quartermaster.actor.name}}</a>
+						<a class='role-remove' data-action='roleRemove' data-role='quartermaster' data-tooltip='{{localize "TOTOWWAGONTRAIN.remove"}}'><i class='fas fa-times'></i></a>
+					{{else}}
+						<span class='role-empty'>{{localize 'TOTOWWAGONTRAIN.dropActor'}}</span>
+					{{/if}}
+				</div>
+
+				<label class='resource-label' data-role='wrangler'>{{toUpperCase (localize 'TOTOWWAGONTRAIN.wrangler')}}</label>
+				<div class='role-slot' data-role='wrangler'>
+					{{#if wagonRoles.leads.wrangler.actor}}
+						<a class='role-name' data-action='roleView' data-actor-id='{{wagonRoles.leads.wrangler.id}}'>{{wagonRoles.leads.wrangler.actor.name}}</a>
+						<a class='role-remove' data-action='roleRemove' data-role='wrangler' data-tooltip='{{localize "TOTOWWAGONTRAIN.remove"}}'><i class='fas fa-times'></i></a>
+					{{else}}
+						<span class='role-empty'>{{localize 'TOTOWWAGONTRAIN.dropActor'}}</span>
+					{{/if}}
+				</div>
+
+				<label class='resource-label' data-role='agent'>{{toUpperCase (localize 'TOTOWWAGONTRAIN.agent')}}</label>
+				<div class='role-slot' data-role='agent'>
+					{{#if wagonRoles.leads.agent.actor}}
+						<a class='role-name' data-action='roleView' data-actor-id='{{wagonRoles.leads.agent.id}}'>{{wagonRoles.leads.agent.actor.name}}</a>
+						<a class='role-remove' data-action='roleRemove' data-role='agent' data-tooltip='{{localize "TOTOWWAGONTRAIN.remove"}}'><i class='fas fa-times'></i></a>
+					{{else}}
+						<span class='role-empty'>{{localize 'TOTOWWAGONTRAIN.dropActor'}}</span>
+					{{/if}}
+				</div>
+			</div>
+		</div>
+
+		<!-- Column 2: Cowboys -->
+		<div class='wagon-train-column' data-role='cowboys'>
+			<label class='column-header resource-label' data-role='cowboys'>{{toUpperCase (localize 'TOTOWWAGONTRAIN.cowboys')}}</label>
+			<div class='role-list' data-role='cowboys'>
+				{{#each wagonRoles.cowboys}}
+					<div class='role-slot' data-role='cowboys'>
+						{{#if this.actor}}
+							<a class='role-name' data-action='roleView' data-actor-id='{{this.id}}'>{{this.actor.name}}</a>
+							<a class='role-remove' data-action='roleRemove' data-role='cowboys' data-index='{{this.index}}' data-tooltip='{{localize "TOTOWWAGONTRAIN.remove"}}'><i class='fas fa-times'></i></a>
+						{{else}}
+							<span class='role-empty'>{{localize 'TOTOWWAGONTRAIN.dropActor'}}</span>
+						{{/if}}
+					</div>
+				{{/each}}
+			</div>
+		</div>
+
+		<!-- Column 3: Scouts -->
+		<div class='wagon-train-column' data-role='scouts'>
+			<label class='column-header resource-label' data-role='scouts'>{{toUpperCase (localize 'TOTOWWAGONTRAIN.scouts')}}</label>
+			<div class='role-list' data-role='scouts'>
+				{{#each wagonRoles.scouts}}
+					<div class='role-slot' data-role='scouts'>
+						{{#if this.actor}}
+							<a class='role-name' data-action='roleView' data-actor-id='{{this.id}}'>{{this.actor.name}}</a>
+							<a class='role-remove' data-action='roleRemove' data-role='scouts' data-index='{{this.index}}' data-tooltip='{{localize "TOTOWWAGONTRAIN.remove"}}'><i class='fas fa-times'></i></a>
+						{{else}}
+							<span class='role-empty'>{{localize 'TOTOWWAGONTRAIN.dropActor'}}</span>
+						{{/if}}
+					</div>
+				{{/each}}
+			</div>
+		</div>
+
+		<!-- Column 4: Morale -->
+		<div class='wagon-train-column' data-role='morale'>
+			<label for='system.moralepoints.value' class='resource-label' style='text-align: center'>{{toUpperCase (localize 'TOTOWWAGONTRAIN.morale')}}</label>
+			<div
+				class='newdots-town-charter'
+				style='padding:0px; justify-content: flex-start'
+				data-tooltip='{{localize "TOTOWWAGONTRAIN.leftToAdd"}}'
+				data-action='changeMorale'
+			>
+				{{#times system.moralepoints.value}}
+					<i class='far fa-dot-circle'></i>
+				{{/times}}
+				{{#times system.moralepoints.max}}<i class='far fa-circle'></i>{{/times}}
+			</div>
+		</div>
+	</div>
+	<hr>
+	<div class='grid-aspect'>
+		<label for='system.resources.food.value' class='GA2label resource-label'>{{toUpperCase (localize 'TOTOWWAGONTRAIN.food')}}</label>
+		<div
+			class='GA21 newdots-town-charter'
+			style='padding:0px; justify-content: space-between'
+			data-tooltip='{{localize "TOTOWWAGONTRAIN.leftToAdd"}}'
+			data-action='changeResource'
+			data-resource='food'
+		>
+			{{#times system.resources.food.value}}
+				<i class='far fa-dot-circle'></i>
+			{{/times}}
+			{{#times system.resources.food.max}}<i class='far fa-circle'></i>{{/times}}
+		</div>
+	</div>
+	<div class='grid-aspect'>
+		<label for='system.resources.water.value' class='GA2label resource-label'>{{toUpperCase (localize 'TOTOWWAGONTRAIN.water')}}</label>
+		<div
+			class='GA21 newdots-town-charter'
+			style='padding:0px; justify-content: space-between'
+			data-tooltip='{{localize "TOTOWWAGONTRAIN.leftToAdd"}}'
+			data-action='changeResource'
+			data-resource='water'
+		>
+			{{#times system.resources.water.value}}
+				<i class='far fa-dot-circle'></i>
+			{{/times}}
+			{{#times system.resources.water.max}}<i class='far fa-circle'></i>{{/times}}
+		</div>
+	</div>
+	<div class='grid-aspect'>
+		<label for='system.resources.medicine.value' class='GA2label resource-label'>{{toUpperCase (localize 'TOTOWWAGONTRAIN.medicine')}}</label>
+		<div
+			class='GA21 newdots-town-charter'
+			style='padding:0px; justify-content: space-between'
+			data-tooltip='{{localize "TOTOWWAGONTRAIN.leftToAdd"}}'
+			data-action='changeResource'
+			data-resource='medicine'
+		>
+			{{#times system.resources.medicine.value}}
+				<i class='far fa-dot-circle'></i>
+			{{/times}}
+			{{#times system.resources.medicine.max}}<i class='far fa-circle'></i>{{/times}}
+		</div>
+	</div>
+	<div class='grid-aspect'>
+		<label for='system.resources.ammunition.value' class='GA2label resource-label'>{{toUpperCase (localize 'TOTOWWAGONTRAIN.ammunition')}}</label>
+		<div
+			class='GA21 newdots-town-charter'
+			style='padding:0px; justify-content: space-between'
+			data-tooltip='{{localize "TOTOWWAGONTRAIN.leftToAdd"}}'
+			data-action='changeResource'
+			data-resource='ammunition'
+		>
+			{{#times system.resources.ammunition.value}}
+				<i class='far fa-dot-circle'></i>
+			{{/times}}
+			{{#times system.resources.ammunition.max}}<i class='far fa-circle'></i>{{/times}}
+		</div>
+	</div>
+	<div class='grid-aspect'>
+		<label class='GA2label resource-label'>{{toUpperCase (localize 'TOTOWWAGONTRAIN.money')}}</label>
+		<div class='GA21' style='display: flex; align-items: center; gap: 16px;'>
+			<label class='resource-label'>{{localize 'TOTOWWAGONTRAIN.current'}}</label>
+			<input class='statnum_lg' type='number' name='system.resources.money.value' value='{{system.resources.money.value}}' data-dtype='Number' />
+			<label class='resource-label'>{{localize 'TOTOWWAGONTRAIN.initial'}}</label>
+			{{#if isGM}}
+				<input class='statnum_lg' type='number' name='system.resources.money.initial' value='{{system.resources.money.initial}}' data-dtype='Number' />
+			{{else}}
+				<input class='statnum_lg' type='number' value='{{system.resources.money.initial}}' data-dtype='Number' disabled />
+			{{/if}}
+			<span style='margin: 0 8px; color: #888;'>|</span>
+			<label class='resource-label'>{{toUpperCase (localize 'TOTOWWAGONTRAIN.cattle')}}</label>
+			<label class='resource-label'>{{localize 'TOTOWWAGONTRAIN.current'}}</label>
+			<input class='statnum_lg' type='number' name='system.resources.cattle.value' value='{{system.resources.cattle.value}}' data-dtype='Number' />
+			<label class='resource-label'>{{localize 'TOTOWWAGONTRAIN.initial'}}</label>
+			{{#if isGM}}
+				<input class='statnum_lg' type='number' name='system.resources.cattle.initial' value='{{system.resources.cattle.initial}}' data-dtype='Number' />
+			{{else}}
+				<input class='statnum_lg' type='number' value='{{system.resources.cattle.initial}}' data-dtype='Number' disabled />
+			{{/if}}
+		</div>
+	</div>
+</section>

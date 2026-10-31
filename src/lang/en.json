@@ -1,0 +1,28 @@
+{
+	"TYPES.Actor.totow-wagontrain.wagontrain": "Wagon Train",
+	"TOTOWWAGONTRAIN": {
+		"sheetLabel": "totow Wagon Train Sheet",
+		"tab": "Wagon Train",
+		"noItems": "A Wagon Train cannot hold items.",
+		"leftToAdd": "Left click to add. Right click to remove",
+		"remove": "Remove",
+		"trailLeads": "Trail Leads",
+		"trailboss": "Trail Boss",
+		"quartermaster": "Quartermaster",
+		"scouts": "Scouts",
+		"wrangler": "Wrangler",
+		"cowboys": "Cowboys",
+		"agent": "Agent",
+		"supplies": "Supplies",
+		"money": "Money",
+		"cattle": "Cattle",
+		"food": "Food",
+		"water": "Water",
+		"medicine": "Medicine",
+		"ammunition": "Ammunition",
+		"morale": "Morale",
+		"dropActor": "Drop Actor",
+		"current": "Current",
+		"initial": "Initial"
+	}
+}
