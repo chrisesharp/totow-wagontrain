@@ -198,9 +198,9 @@ export function defineWagonTrainSheet(BaseSheet) {
       if (event.detail > 1) return; // Ignore repeated clicks
       const isModifiable = ["attribute"].includes(target.dataset.rollType);
       if (isModifiable && event.button !== 0) {
-        await this.actor.modRoll(actor, event, target);
+        await this.actor.modRoll(this.actor, event, target);
       } else {
-        await this.actor.diceRoll(actor, event, target);
+        await this.actor.diceRoll(this.actor, event, target);
       }
     }
   };
