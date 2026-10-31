@@ -2,7 +2,8 @@
  * Data model for the Wagon Train actor subtype.
  * @extends {foundry.abstract.TypeDataModel}
  */
-export class WagonTrainModel extends foundry.abstract.TypeDataModel {
+// export class WagonTrainModel extends foundry.abstract.TypeDataModel {
+export class WagonTrainModel extends talesoftheoldwest.models.totowCreatureBase {
   static defineSchema() {
     const fields = foundry.data.fields;
     const requiredInteger = { required: true, nullable: false, integer: true };
@@ -23,6 +24,7 @@ export class WagonTrainModel extends foundry.abstract.TypeDataModel {
       });
 
     return {
+      ...super.defineSchema(),
       roles: new fields.SchemaField({
         trailboss: new fields.StringField({ required: true, blank: true }),
         quartermaster: new fields.StringField({ required: true, blank: true }),
@@ -47,6 +49,7 @@ export class WagonTrainModel extends foundry.abstract.TypeDataModel {
 
   /** @override */
   prepareDerivedData() {
+    super.prepareDerivedData();
     for (const key of ["food", "water", "medicine", "ammunition"]) {
       this.resources[key].max = 30 - this.resources[key].value;
     }

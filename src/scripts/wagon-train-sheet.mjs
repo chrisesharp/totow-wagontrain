@@ -18,6 +18,7 @@ export function defineWagonTrainSheet(BaseSheet) {
         changeResource: { handler: this._changeResource, buttons: [0, 2] },
         roleView: { handler: this._onRoleView, buttons: [0, 2] },
         roleRemove: { handler: this._onRoleRemove, buttons: [0, 2] },
+        roll: { handler: this._onRoll, buttons: [0, 2] },
       },
     };
 
@@ -189,6 +190,18 @@ export function defineWagonTrainSheet(BaseSheet) {
     async _onDropItemCreate(itemData, event) {
       ui.notifications.warn(game.i18n.localize("TOTOWWAGONTRAIN.noItems"));
       return false;
+    }
+
+    static async _onRoll(event, target) {
+      event.preventDefault(); // Don't open context menu
+      event.stopPropagation(); // Don't trigger other events
+      if (event.detail > 1) return; // Ignore repeated clicks
+      const isModifiable = ["attribute"].includes(target.dataset.rollType);
+      if (isModifiable && event.button !== 0) {
+        await this.actor.modRoll(actor, event, target);
+      } else {
+        await this.actor.diceRoll(actor, event, target);
+      }
     }
   };
 }
