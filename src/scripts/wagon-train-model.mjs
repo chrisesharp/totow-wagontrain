@@ -41,6 +41,7 @@ export class WagonTrainModel extends talesoftheoldwest.models.totowCreatureBase 
         water: dotTrack(30),
         medicine: dotTrack(30),
         ammunition: dotTrack(30),
+        manpower: dotTrack(30),
         money: counter(),
         cattle: counter(),
       }),
@@ -50,7 +51,7 @@ export class WagonTrainModel extends talesoftheoldwest.models.totowCreatureBase 
   /** @override */
   prepareDerivedData() {
     super.prepareDerivedData();
-    for (const key of ["food", "water", "medicine", "ammunition"]) {
+    for (const key of ["food", "water", "medicine", "ammunition", "manpower"]) {
       this.resources[key].max = 30 - this.resources[key].value;
     }
     this.moralepoints.max = 10 - this.moralepoints.value;

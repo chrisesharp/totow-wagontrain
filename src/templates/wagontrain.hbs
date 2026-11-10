@@ -159,6 +159,21 @@
 		</div>
 	</div>
 	<div class='grid-aspect'>
+		<label for='system.resources.manpower.value' class='GA2label resource-label'>{{toUpperCase (localize 'TOTOWWAGONTRAIN.manpower')}}</label>
+		<div
+			class='GA21 newdots-town-charter'
+			style='padding:0px; justify-content: space-between'
+			data-tooltip='{{localize "TOTOWWAGONTRAIN.leftToAdd"}}'
+			data-action='changeResource'
+			data-resource='manpower'
+		>
+			{{#times system.resources.manpower.value}}
+				<i class='far fa-dot-circle'></i>
+			{{/times}}
+			{{#times system.resources.manpower.max}}<i class='far fa-circle'></i>{{/times}}
+		</div>
+	</div>
+	<div class='grid-aspect'>
 		<label class='GA2label resource-label'>{{toUpperCase (localize 'TOTOWWAGONTRAIN.money')}}</label>
 		<div class='GA21' style='display: flex; align-items: center; gap: 16px;'>
 			<label class='resource-label'>{{localize 'TOTOWWAGONTRAIN.current'}}</label>

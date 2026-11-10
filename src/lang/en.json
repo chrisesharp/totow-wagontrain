@@ -15,6 +15,7 @@
 		"agent": "Agent",
 		"supplies": "Supplies",
 		"money": "Money",
+		"manpower": "Manpower",
 		"cattle": "Cattle",
 		"food": "Food",
 		"water": "Water",
