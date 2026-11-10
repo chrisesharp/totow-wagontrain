@@ -59,6 +59,27 @@ $font-primary: 'Fraunces', serif;
     }
   }
 
+  // Resource dot tracks: a vertical divider after every 5th dot.
+  // Dots are laid out with a fixed gap so the divider can sit exactly midway between groups.
+  .GA21.newdots-town-charter {
+    gap: 1px;
+
+    > i:nth-child(5n):not(:last-child) {
+      position: relative;
+      margin-right: 1px;
+
+      &::after {
+        content: '';
+        position: absolute;
+        left: calc(100% + 0px); // half of (gap + margin-right)
+        top: -12px;
+        bottom: -9px;
+        width: 1px;
+        background: var(--color-text-light-7, #2c2c2b);
+      }
+    }
+  }
+
   .role-slot {
     display: flex;
     align-items: center;
