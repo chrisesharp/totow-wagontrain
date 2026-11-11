@@ -214,23 +214,6 @@ export function defineWagonTrainSheet(BaseSheet) {
         default:
         return await this.actor.update({ [`system.roles.${role}`]: actorId });
       }
-      // if (role === "cowboys" || role === "scouts") {
-      //   const maxCapacity = role === "cowboys" ? MAX_COWBOYS : MAX_SCOUTS;
-      //   const currentList = Array.from(this.actor.system.roles[role] ?? []).filter(Boolean);
-
-      //   // An Actor can only appear once in a given list. If already present or full, silently ignore.
-      //   if (currentList.includes(actorId) || currentList.length >= maxCapacity) return;
-
-      //   currentList.push(actorId);
-      //   return await this.actor.update({ [`system.roles.${role}`]: currentList });
-      // } else if (role === "wagons") {
-      //   const maxCapacity = MAX_WAGONS;
-      //   const currentList = Array.from(this.actor.system.wagons ?? []).filter(Boolean);
-      //   if (currentList.includes(actorId) || currentList.length >= maxCapacity) return;
-      //   currentList.push(actorId);
-      //   return await this.actor.update({ ["system.wagons"]: currentList });
-      // }
-      // return await this.actor.update({ [`system.roles.${role}`]: actorId });
     }
 
     /**
