@@ -63,9 +63,24 @@ export function defineWagonTrainSheet(BaseSheet) {
       if (partId === "wagontrain") {
         context.wagonRoles = this.#prepareRoles();
       } else {
-        context.wagons = this.#prepareWagons();
+        context.wagons = await this.#prepareWagons();
       }
       return context;
+    }
+
+    /** @override */
+    async _onRender(context, options) {
+      await super._onRender(context, options);
+      const root = this.element.querySelector("section.wagons");
+      if (!root) return;
+      const cards = root.querySelectorAll(".wagon-preview-card");
+      const show = (actorId) => {
+        for (const card of cards) card.classList.toggle("active", card.dataset.actorId === actorId);
+      };
+      for (const slot of root.querySelectorAll(".role-slot[data-actor-id]")) {
+        slot.addEventListener("mouseenter", () => show(slot.dataset.actorId));
+        slot.addEventListener("mouseleave", () => show(null));
+      }
     }
 
     #toSlots(ids, capacity) {
@@ -95,9 +110,37 @@ export function defineWagonTrainSheet(BaseSheet) {
       };
     }
 
-    #prepareWagons() {
+    async #prepareWagons() {
       const wagons = this.actor.system.wagons ?? [];
-      return this.#toSlots(wagons, MAX_WAGONS);
+      const slots = this.#toSlots(wagons, MAX_WAGONS);
+      await Promise.all(
+        slots.map(async (slot) => {
+          if (slot.actor) slot.summary = await this.#prepareSummary(slot.actor);
+        }),
+      );
+      return slots;
+    }
+
+    /**
+     * Build the data shown in the hover preview for a single actor.
+     * @param {Actor} actor
+     * @returns {Promise<object>}
+     */
+    async #prepareSummary(actor) {
+      const biography = actor.system.biography;
+      const typeKey = CONFIG.Actor.typeLabels?.[actor.type] ?? `TYPES.Actor.${actor.type}`;
+      return {
+        name: actor.name,
+        img: actor.img,
+        typeLabel: game.i18n.localize(typeKey),
+        members: (actor.system.members ?? []).map((id) => game.actors.get(id)?.name).filter(Boolean),
+        biography: biography
+          ? await foundry.applications.ux.TextEditor.enrichHTML(biography, {
+              secrets: actor.isOwner,
+              relativeTo: actor,
+            })
+          : "",
+      };
     }
 
     /* -------------------------------------------- */

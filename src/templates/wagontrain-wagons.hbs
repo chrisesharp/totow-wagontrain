@@ -5,7 +5,7 @@
 			<label class='column-header resource-label' data-role='wagons'>{{toUpperCase (localize 'TOTOWWAGONTRAIN.wagons')}}</label>
 			<div class='role-list' data-role='cowboys'>
 				{{#each wagons}}
-					<div class='role-slot' data-role='wagons'>
+					<div class='role-slot' data-role='wagons' {{#if this.actor}}data-actor-id='{{this.id}}'{{/if}}>
 						{{#if this.actor}}
 							<a class='role-name' data-action='roleView' data-actor-id='{{this.id}}'>{{this.actor.name}}</a>
 							<a class='role-edit' data-action='roleView' data-actor-id='{{this.id}}' data-tooltip='{{localize "DOCUMENT.Update" type='Actor'}}'><i class='fas fa-edit'></i></a>
@@ -17,4 +17,29 @@
 				{{/each}}
 			</div>
 		</div>
+		<!-- Column 2: Wagon preview -->
+		<div class='wagon-train-column wagon-preview' data-role='wagons'>
+			{{#each wagons}}
+				{{#if this.summary}}
+					<div class='wagon-preview-card' data-actor-id='{{this.id}}'>
+						<img class='preview-img' src='{{this.summary.img}}' alt='{{this.summary.name}}'>
+						<div class='preview-body'>
+							<h3 class='preview-name'>{{this.summary.name}}</h3>
+							<div class='preview-type'>{{this.summary.typeLabel}}</div>
+							{{#if this.summary.members.length}}
+								<ul class='preview-members'>
+									{{#each this.summary.members}}
+										<li>{{this}}</li>
+									{{/each}}
+								</ul>
+							{{/if}}
+							{{#if this.summary.biography}}
+								<div class='preview-biography'>{{{this.summary.biography}}}</div>
+							{{/if}}
+						</div>
+					</div>
+				{{/if}}
+			{{/each}}
+		</div>
+	</div>
 </section>

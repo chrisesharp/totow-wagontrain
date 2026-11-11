@@ -57,6 +57,55 @@ $font-primary: 'Fraunces', serif;
       align-items: center;
       gap: 6px;
     }
+
+    // The preview panel spans the remaining columns and only shows the hovered actor's card.
+    .wagon-preview {
+      grid-column: 2 / -1;
+
+      .wagon-preview-card {
+        display: none;
+        gap: 12px;
+        padding: 8px;
+        background: var(--input-background-color, rgba(0, 0, 0, 0.05));
+        border: 1px solid var(--input-border-color, #7a7971);
+        border-radius: 3px;
+
+        &.active {
+          display: flex;
+        }
+
+        .preview-img {
+          width: 96px;
+          height: 96px;
+          object-fit: cover;
+          border: 1px solid var(--input-border-color, #7a7971);
+        }
+
+        .preview-body {
+          min-width: 0;
+        }
+
+        .preview-name {
+          margin: 0;
+          font-family: $font-primary;
+        }
+
+        .preview-type {
+          font-style: italic;
+          color: var(--input-placeholder-color, #7a7971);
+        }
+
+        .preview-members {
+          margin: 4px 0;
+          padding-left: 18px;
+        }
+
+        .preview-biography {
+          max-height: 200px;
+          overflow: hidden;
+        }
+      }
+    }
   }
 
   // Resource dot tracks: a vertical divider after every 5th dot.
