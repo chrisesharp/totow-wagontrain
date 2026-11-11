@@ -1,4 +1,4 @@
-import { MODULE_ID, MAX_COWBOYS, MAX_SCOUTS } from "./constants.mjs";
+import { MODULE_ID, MAX_COWBOYS, MAX_SCOUTS, MAX_WAGONS } from "./constants.mjs";
 
 /**
  * Build the Wagon Train sheet class on top of the system's actor sheet.
@@ -29,6 +29,10 @@ export function defineWagonTrainSheet(BaseSheet) {
         template: `modules/${MODULE_ID}/templates/wagontrain.hbs`,
         scrollable: [""],
       },
+      wagons: {
+        template: `modules/${MODULE_ID}/templates/wagontrain-wagons.hbs`,
+        scrollable: [""],
+      },
     };
 
     /* -------------------------------------------- */
@@ -38,7 +42,7 @@ export function defineWagonTrainSheet(BaseSheet) {
       super._configureRenderOptions(options);
       // Limited view keeps the base header and tabs only
       if (this.document.limited) return;
-      options.parts = ["tcheader", "tabs", "wagontrain"];
+      options.parts = ["tcheader", "tabs", "wagontrain", "wagons"];
     }
 
     /* -------------------------------------------- */
@@ -55,13 +59,21 @@ export function defineWagonTrainSheet(BaseSheet) {
     /** @override */
     async _preparePartContext(partId, context) {
       context = await super._preparePartContext(partId, context);
+      context.tab = context.tabs[partId];
       if (partId === "wagontrain") {
-        context.tab = context.tabs[partId];
         context.wagonRoles = this.#prepareRoles();
+      } else {
+        context.wagons = this.#prepareWagons();
       }
       return context;
     }
 
+    #toSlots(ids, capacity) {
+      const resolveActor = (id) => (id ? game.actors.get(id) : null);
+      const slots = (ids ?? []).filter(Boolean).map((id, index) => ({ index, id, actor: resolveActor(id) }));
+      if (slots.length < capacity) slots.push({ index: slots.length, id: "", actor: null });
+      return slots;
+    }
     /**
      * Resolve the actors assigned to each trail role, padding the cowboy and
      * scout lists with one empty slot while there is capacity left.
@@ -71,12 +83,6 @@ export function defineWagonTrainSheet(BaseSheet) {
       const roles = this.actor.system.roles ?? {};
       const resolveActor = (id) => (id ? game.actors.get(id) : null);
 
-      const toSlots = (ids, capacity) => {
-        const slots = (ids ?? []).filter(Boolean).map((id, index) => ({ index, id, actor: resolveActor(id) }));
-        if (slots.length < capacity) slots.push({ index: slots.length, id: "", actor: null });
-        return slots;
-      };
-
       return {
         leads: {
           trailboss: { id: roles.trailboss, actor: resolveActor(roles.trailboss) },
@@ -84,9 +90,14 @@ export function defineWagonTrainSheet(BaseSheet) {
           wrangler: { id: roles.wrangler, actor: resolveActor(roles.wrangler) },
           agent: { id: roles.agent, actor: resolveActor(roles.agent) },
         },
-        cowboys: toSlots(roles.cowboys, MAX_COWBOYS),
-        scouts: toSlots(roles.scouts, MAX_SCOUTS),
+        cowboys: this.#toSlots(roles.cowboys, MAX_COWBOYS),
+        scouts: this.#toSlots(roles.scouts, MAX_SCOUTS),
       };
+    }
+
+    #prepareWagons() {
+      const wagons = this.actor.system.wagons ?? [];
+      return this.#toSlots(wagons, MAX_WAGONS);
     }
 
     /* -------------------------------------------- */
@@ -100,11 +111,37 @@ export function defineWagonTrainSheet(BaseSheet) {
       if (tabs.wagontrain) {
         Object.assign(tabs.wagontrain, {
           id: "wagontrain",
-          label: "TOTOWWAGONTRAIN.tab",
+          label: "TOTOWWAGONTRAIN.tabs.WagonTrain",
           cssClass: this.tabGroups.primary === "wagontrain" ? "active" : "",
         });
       }
+      
+      if (tabs.wagons) {
+        Object.assign(tabs.wagons, {
+          id: "wagons",
+          label: "TOTOWWAGONTRAIN.tabs.Wagons",
+          cssClass: this.tabGroups.primary === "wagons" ? "active" : "",
+        });
+      }
       return tabs;
+    }
+
+    async addMember(actorId, group, field, maxCapacity) {
+      const currentList = Array.from(group ?? []).filter(Boolean);
+      // An Actor can only appear once in a given list. If already present or full, silently ignore.
+      if (currentList.includes(actorId) || currentList.length >= maxCapacity) return;
+      currentList.push(actorId);
+      return await this.actor.update({ [field]: currentList });
+    }
+
+    async removeMember(index, group, field, capacity) {
+        const idx = Number.parseInt(index, capacity);
+        if (Number.isNaN(idx)) return;
+
+        const currentList = Array.from(group ?? []).filter(Boolean);
+        currentList.splice(idx, 1);
+
+        return await this.actor.update({ [field]: currentList });
     }
 
     /* -------------------------------------------- */
@@ -130,17 +167,16 @@ export function defineWagonTrainSheet(BaseSheet) {
       const { role, index } = target.dataset;
       if (!role) return;
 
-      if (role === "cowboys" || role === "scouts") {
-        const idx = Number.parseInt(index, 10);
-        if (Number.isNaN(idx)) return;
-
-        const currentList = Array.from(this.actor.system.roles[role] ?? []).filter(Boolean);
-        currentList.splice(idx, 1);
-
-        return await this.actor.update({ [`system.roles.${role}`]: currentList });
+      switch (role) {
+        case "cowboys":
+          return await this.removeMember(index, this.actor.system.roles[role], 'system.roles.cowboys', MAX_COWBOYS);
+        case "scouts":
+          return await this.removeMember(index, this.actor.system.roles[role], 'system.roles.scouts', MAX_SCOUTS);
+        case "wagons":
+          return await this.removeMember(index, this.actor.system.wagons, 'system.wagons', MAX_WAGONS);
+        default:
+        return await this.actor.update({ [`system.roles.${role}`]: "" });
       }
-
-      return await this.actor.update({ [`system.roles.${role}`]: "" });
     }
 
     /* -------------------------------------------- */
@@ -160,7 +196,7 @@ export function defineWagonTrainSheet(BaseSheet) {
 
     async #dropTrailMember(event, actorId) {
       const crew = game.actors.get(actorId);
-      if (!(crew?.type === "pc" || crew?.type === "npc")) return;
+      if (!(crew?.type === "pc" || crew?.type === "npc" || crew?.type === `${MODULE_ID}.wagon`)) return;
 
       const dropTarget = event.target.closest("[data-role]");
       if (!dropTarget) return;
@@ -168,18 +204,33 @@ export function defineWagonTrainSheet(BaseSheet) {
       const { role } = dropTarget.dataset;
       if (!role) return;
 
-      if (role === "cowboys" || role === "scouts") {
-        const maxCapacity = role === "cowboys" ? MAX_COWBOYS : MAX_SCOUTS;
-        const currentList = Array.from(this.actor.system.roles[role] ?? []).filter(Boolean);
-
-        // An Actor can only appear once in a given list. If already present or full, silently ignore.
-        if (currentList.includes(actorId) || currentList.length >= maxCapacity) return;
-
-        currentList.push(actorId);
-        return await this.actor.update({ [`system.roles.${role}`]: currentList });
+      switch (role) {
+        case "cowboys":
+          return await this.addMember(actorId, this.actor.system.roles[role], 'system.roles.cowboys', MAX_COWBOYS);
+        case "scouts":
+          return await this.addMember(actorId, this.actor.system.roles[role], 'system.roles.scouts', MAX_SCOUTS);
+        case "wagons":
+          return await this.addMember(actorId, this.actor.system.wagons, 'system.wagons', MAX_WAGONS);
+        default:
+        return await this.actor.update({ [`system.roles.${role}`]: actorId });
       }
+      // if (role === "cowboys" || role === "scouts") {
+      //   const maxCapacity = role === "cowboys" ? MAX_COWBOYS : MAX_SCOUTS;
+      //   const currentList = Array.from(this.actor.system.roles[role] ?? []).filter(Boolean);
 
-      return await this.actor.update({ [`system.roles.${role}`]: actorId });
+      //   // An Actor can only appear once in a given list. If already present or full, silently ignore.
+      //   if (currentList.includes(actorId) || currentList.length >= maxCapacity) return;
+
+      //   currentList.push(actorId);
+      //   return await this.actor.update({ [`system.roles.${role}`]: currentList });
+      // } else if (role === "wagons") {
+      //   const maxCapacity = MAX_WAGONS;
+      //   const currentList = Array.from(this.actor.system.wagons ?? []).filter(Boolean);
+      //   if (currentList.includes(actorId) || currentList.length >= maxCapacity) return;
+      //   currentList.push(actorId);
+      //   return await this.actor.update({ ["system.wagons"]: currentList });
+      // }
+      // return await this.actor.update({ [`system.roles.${role}`]: actorId });
     }
 
     /**

@@ -1,8 +1,12 @@
 {
 	"TYPES.Actor.totow-wagontrain.wagontrain": "Wagon Train",
+	"TYPES.Actor.totow-wagontrain.wagon": "Wagon",
 	"TOTOWWAGONTRAIN": {
 		"sheetLabel": "totow Wagon Train Sheet",
-		"tab": "Wagon Train",
+		"tabs": {
+			"WagonTrain": "Wagon Train",
+			"Wagons": "Wagons"
+		},
 		"noItems": "A Wagon Train cannot hold items.",
 		"leftToAdd": "Left click to add. Right click to remove",
 		"remove": "Remove",
@@ -24,6 +28,16 @@
 		"morale": "Morale",
 		"dropActor": "Drop Actor",
 		"current": "Current",
-		"initial": "Initial"
+		"initial": "Initial",
+		"wagons": "Wagons"
+	},
+	"TOTOWWAGON": {
+		"sheetLabel": "totow Wagon Sheet",
+		"tab": "Wagon",
+		"noItems": "A Wagon cannot hold items.",
+		"leftToAdd": "Left click to add. Right click to remove",
+		"remove": "Remove",
+		"members": "Wagon members",
+		"dropActor": "Drop Actor"
 	}
 }

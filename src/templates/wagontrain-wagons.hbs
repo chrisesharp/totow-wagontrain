@@ -1,0 +1,20 @@
+<section class='tab wagons {{tab.cssClass}}' data-group='primary' data-tab='wagons'>
+	<div class='grid-wagon-train' style='margin-top: 30px;'>
+		<!-- Column 1: Wagons -->
+		<div class='wagon-train-column' data-role='wagons'>
+			<label class='column-header resource-label' data-role='wagons'>{{toUpperCase (localize 'TOTOWWAGONTRAIN.wagons')}}</label>
+			<div class='role-list' data-role='cowboys'>
+				{{#each wagons}}
+					<div class='role-slot' data-role='wagons'>
+						{{#if this.actor}}
+							<a class='role-name' data-action='roleView' data-actor-id='{{this.id}}'>{{this.actor.name}}</a>
+							<a class='role-edit' data-action='roleView' data-actor-id='{{this.id}}' data-tooltip='{{localize "DOCUMENT.Update" type='Actor'}}'><i class='fas fa-edit'></i></a>
+							<a class='role-remove' data-action='roleRemove' data-role='wagons' data-index='{{this.index}}' data-tooltip='{{localize "TOTOWWAGONTRAIN.remove"}}'><i class='fas fa-trash'></i></a>
+						{{else}}
+							<span class='role-empty'>{{localize 'TOTOWWAGONTRAIN.dropActor'}}</span>
+						{{/if}}
+					</div>
+				{{/each}}
+			</div>
+		</div>
+</section>

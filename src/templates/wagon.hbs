@@ -1,0 +1,31 @@
+<section class='tab wagon {{tab.cssClass}}' data-group='primary' data-tab='wagon'>
+	<div class='grid-wagon-train' style='margin-top: 30px;'>
+		<!-- Column 1: Members -->
+		<div class='wagon-train-column' data-role='members'>
+			<label class='column-header resource-label' data-role='members'>{{toUpperCase (localize 'TOTOWWAGON.members')}}</label>
+			<div class='role-list' data-role='members'>
+				{{#each wagonMembers}}
+					<div class='role-slot' data-role='members'>
+						{{#if this.actor}}
+							<a class='role-name' data-action='roleView' data-actor-id='{{this.id}}'>{{this.actor.name}}</a>
+							<a class='role-remove' data-action='roleRemove' data-role='members' data-index='{{this.index}}' data-tooltip='{{localize "TOTOWWAGON.remove"}}'><i class='fas fa-trash'></i></a>
+						{{else}}
+							<span class='role-empty'>{{localize 'TOTOWWAGON.dropActor'}}</span>
+						{{/if}}
+					</div>
+				{{/each}}
+			</div>
+		</div>
+	</div>
+	<hr>
+	<div class='div-border' style='height: {{#if (eq actor.type "pc")}}470px{{else}}600px{{/if}};'>
+	<label for='system.biography' class='resource-label abilities-name'>{{toUpperCase (localize 'TALESOFTHEOLDWEST.General.notes')}}</label>
+		{{#if editable}}
+			<prose-mirror name='system.biography' data-document-u-u-i-d='{{actor.uuid}}' value='{{system.biography}}' collaborate='true' toggled='true'>
+				{{{enrichedBiography}}}
+			</prose-mirror>
+		{{else}}
+			{{{enrichedBiography}}}
+		{{/if}}
+	</div>
+</section>

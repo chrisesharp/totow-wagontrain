@@ -106,15 +106,26 @@ $font-primary: 'Fraunces', serif;
       }
     }
 
+    .role-edit {
+      margin-left: auto;
+      cursor: pointer;
+      padding: 0 4px;
+    }
+
     .role-remove {
       margin-left: auto;
-      color: var(--color-text-light-7, #7a7971);
       cursor: pointer;
       padding: 0 4px;
 
       &:hover {
         color: var(--color-level-error, #c00);
       }
+    }
+
+    // When an edit icon precedes the remove icon, let only the edit icon
+    // absorb the free space so the two sit together at the right edge.
+    .role-edit + .role-remove {
+      margin-left: 0;
     }
 
     .role-empty {

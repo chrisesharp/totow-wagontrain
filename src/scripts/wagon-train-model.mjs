@@ -36,6 +36,8 @@ export class WagonTrainModel extends talesoftheoldwest.models.totowCreatureBase 
 
       moralepoints: dotTrack(10),
 
+      wagons: new fields.ArrayField(new fields.StringField({ required: true, blank: true })),
+
       resources: new fields.SchemaField({
         food: dotTrack(30),
         water: dotTrack(30),
