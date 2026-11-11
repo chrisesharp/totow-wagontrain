@@ -7,6 +7,7 @@
 				{{#each wagonMembers}}
 					<div class='role-slot' data-role='members'>
 						{{#if this.actor}}
+							<img class='profile-img-sm' src='{{this.actor.prototypeToken.texture.src}}' data-edit='img' data-action='onEditImage' title='{{this.actor.name}}' />
 							<a class='role-name' data-action='roleView' data-actor-id='{{this.id}}'>{{this.actor.name}}</a>
 							<a class='role-remove' data-action='roleRemove' data-role='members' data-index='{{this.index}}' data-tooltip='{{localize "TOTOWWAGON.remove"}}'><i class='fas fa-trash'></i></a>
 						{{else}}
@@ -18,7 +19,7 @@
 		</div>
 	</div>
 	<hr>
-	<div class='div-border' style='height: {{#if (eq actor.type "pc")}}470px{{else}}600px{{/if}};'>
+	<div class='div-border'>
 	<label for='system.biography' class='resource-label abilities-name'>{{toUpperCase (localize 'TALESOFTHEOLDWEST.General.notes')}}</label>
 		{{#if editable}}
 			<prose-mirror name='system.biography' data-document-u-u-i-d='{{actor.uuid}}' value='{{system.biography}}' collaborate='true' toggled='true'>

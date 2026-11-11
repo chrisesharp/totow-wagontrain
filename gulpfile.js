@@ -23,7 +23,7 @@ const stylesEntry = 'wagontrain';
 const sourceFileExtension = 'mjs';
 const scriptsDirectory = './scripts';
 // Copied as-is from `src/` into `dist/`.
-const staticFiles = ['lang', 'templates', 'module.json'];
+const staticFiles = ['lang', 'templates', 'assets', 'module.json'];
 // Copied as-is from the repository root into `dist/`.
 const rootFiles = ['LICENSE.txt', 'README.md'];
 

@@ -12,6 +12,7 @@ export function defineWagonSheet(BaseSheet) {
   return class WagonSheet extends BaseSheet {
     /** @override */
     static DEFAULT_OPTIONS = {
+      classes: ["actor", "talesoftheoldwest"],
       actions: {
         roleView: { handler: this._onRoleView, buttons: [0, 2] },
         roleRemove: { handler: this._onRoleRemove, buttons: [0, 2] },
@@ -35,7 +36,7 @@ export function defineWagonSheet(BaseSheet) {
       super._configureRenderOptions(options);
       // Limited view keeps the base header and tabs only
       if (this.document.limited) return;
-      options.parts = ["tcheader", "tabs", "wagon"];
+      options.parts = ["header", "tabs", "wagon"];
     }
 
     /* -------------------------------------------- */
@@ -44,7 +45,7 @@ export function defineWagonSheet(BaseSheet) {
     async _prepareContext(options) {
       const context = await super._prepareContext(options);
       if (this.document.img === "icons/svg/mystery-man.svg" && this.document.img !== this.img) {
-        this.document.update({ img: "icons/svg/barrel.svg" });
+        this.document.update({ img: "modules/totow-wagontrain/assets/wagon-icon-white.svg" });
       }
       return context;
     }
