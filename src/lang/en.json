@@ -29,7 +29,8 @@
 		"dropActor": "Drop Actor",
 		"current": "Current",
 		"initial": "Initial",
-		"wagons": "Wagons"
+		"wagons": "Wagons",
+		"randomMember": "Roll for random trail member"
 	},
 	"TOTOWWAGON": {
 		"sheetLabel": "totow Wagon Sheet",

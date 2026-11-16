@@ -19,6 +19,7 @@ export function defineWagonTrainSheet(BaseSheet) {
         roleView: { handler: this._onRoleView, buttons: [0, 2] },
         roleRemove: { handler: this._onRoleRemove, buttons: [0, 2] },
         roll: { handler: this._onRoll, buttons: [0, 2] },
+        rndMember: { handler: this._onRandomMember, buttons: [0, 2] }
       },
     };
 
@@ -134,6 +135,7 @@ export function defineWagonTrainSheet(BaseSheet) {
         img: actor.img,
         typeLabel: game.i18n.localize(typeKey),
         members: (actor.system.members ?? []).map((id) => game.actors.get(id)?.name).filter(Boolean),
+        ids: (actor.system.members ?? []).map((id) => game.actors.get(id)?.id).filter(Boolean),
         biography: biography
           ? await foundry.applications.ux.TextEditor.enrichHTML(biography, {
               secrets: actor.isOwner,
@@ -279,6 +281,23 @@ export function defineWagonTrainSheet(BaseSheet) {
       } else {
         await this.actor.diceRoll(this.actor, event, target);
       }
+    }
+
+    static async _onRandomMember(event, target) {
+      event.preventDefault(); 
+      const wagons = (await this.#prepareWagons()).filter((w) => w?.summary?.ids.length > 0);;
+      if (!wagons.length) return;
+      const randomWagon = wagons[Math.floor(Math.random() * wagons.length)];
+      const ids = randomWagon?.summary?.ids ?? [];
+      const randomId = ids[Math.floor(Math.random() * ids.length)];
+      if (!randomId) return;
+      const actor = game.actors.get(randomId);
+      const link = `@UUID[${actor.uuid}]{${actor.name}}`; 
+      const chatMessage =
+			`<div><span style="font-weight:bold;font-size:larger">` +
+			await foundry.applications.ux.TextEditor.enrichHTML(link) +
+			'</span></div>';
+		await actor.createChatMessage(chatMessage, randomWagon.id);
     }
   };
 }

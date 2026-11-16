@@ -31,6 +31,14 @@ $font-primary: 'Fraunces', serif;
       flex-direction: column;
       gap: 8px;
 
+      .column-header-row {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+
       .column-header {
         font-weight: bold;
         font-size: 1.4em;

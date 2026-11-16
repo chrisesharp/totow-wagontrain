@@ -2,7 +2,10 @@
 	<div class='grid-wagon-train' style='margin-top: 30px;'>
 		<!-- Column 1: Wagons -->
 		<div class='wagon-train-column' data-role='wagons'>
-			<label class='column-header resource-label' data-role='wagons'>{{toUpperCase (localize 'TOTOWWAGONTRAIN.wagons')}}</label>
+			<div class='column-header-row'>
+				<label class='column-header resource-label' data-role='wagons'>{{toUpperCase (localize 'TOTOWWAGONTRAIN.wagons')}}</label>
+				<a class='rnd-member' data-action='rndMember' data-tooltip='{{localize 'TOTOWWAGONTRAIN.randomMember'}}'><i class='fas fa-dice'></i></a>
+			</div>
 			<div class='role-list' data-role='cowboys'>
 				{{#each wagons}}
 					<div class='role-slot' data-role='wagons' {{#if this.actor}}data-actor-id='{{this.id}}'{{/if}}>

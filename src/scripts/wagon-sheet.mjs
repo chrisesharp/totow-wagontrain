@@ -16,7 +16,7 @@ export function defineWagonSheet(BaseSheet) {
       actions: {
         roleView: { handler: this._onRoleView, buttons: [0, 2] },
         roleRemove: { handler: this._onRoleRemove, buttons: [0, 2] },
-        roll: { handler: this._onRoll, buttons: [0, 2] },
+        roll: { handler: this._onRoll, buttons: [0, 2] }
       },
     };
 
@@ -172,8 +172,8 @@ export function defineWagonSheet(BaseSheet) {
     }
 
     static async _onRoll(event, target) {
-      event.preventDefault(); // Don't open context menu
-      event.stopPropagation(); // Don't trigger other events
+      event.preventDefault(); 
+      event.stopPropagation(); 
       if (event.detail > 1) return; // Ignore repeated clicks
       const isModifiable = ["attribute"].includes(target.dataset.rollType);
       if (isModifiable && event.button !== 0) {
