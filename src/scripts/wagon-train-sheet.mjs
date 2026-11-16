@@ -134,8 +134,8 @@ export function defineWagonTrainSheet(BaseSheet) {
         name: actor.name,
         img: actor.img,
         typeLabel: game.i18n.localize(typeKey),
-        members: (actor.system.members ?? []).map((id) => game.actors.get(id)?.name).filter(Boolean),
-        ids: (actor.system.members ?? []).map((id) => game.actors.get(id)?.id).filter(Boolean),
+        members: (actor.system.members ?? [actor.id]).map((id) => game.actors.get(id)?.name).filter(Boolean),
+        ids: (actor.system.members ?? [actor.id]).map((id) => game.actors.get(id)?.id).filter(Boolean),
         biography: biography
           ? await foundry.applications.ux.TextEditor.enrichHTML(biography, {
               secrets: actor.isOwner,
@@ -285,7 +285,8 @@ export function defineWagonTrainSheet(BaseSheet) {
 
     static async _onRandomMember(event, target) {
       event.preventDefault(); 
-      const wagons = (await this.#prepareWagons()).filter((w) => w?.summary?.ids.length > 0);;
+      const allWagons = await this.#prepareWagons();
+      const wagons = allWagons.filter((w) => w?.summary?.ids.length > 0);;
       if (!wagons.length) return;
       const randomWagon = wagons[Math.floor(Math.random() * wagons.length)];
       const ids = randomWagon?.summary?.ids ?? [];
